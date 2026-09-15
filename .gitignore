@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment and sensitive credentials
+.env
+.env.*
+*.local
+credentials.json
+secrets.h
+**/secrets.h
+
+# Arduino build artifacts
+*.hex
+*.bin
+*.elf
+*.partitions.bin
+build/
+.arduino/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+.vscode/
+.idea/
+
+# Logs and scratch
+*.log
+scratch/

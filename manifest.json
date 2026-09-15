@@ -1,0 +1,19 @@
+{
+  "name": "Smart Home Control",
+  "short_name": "SmartHome",
+  "description": "ESP32 Smart Home dashboard for Door and Light control with voice commands",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#12161a",
+  "theme_color": "#12161a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

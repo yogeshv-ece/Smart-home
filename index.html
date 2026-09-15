@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#12161a">
+<meta name="description" content="Smart Home Control Dashboard for ESP32 - Door and Light control with live voice commands">
+<title>Smart Home Control</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ HEADER ============ -->
+  <header class="app-header">
+    <div class="app-header__title">
+      <span class="app-header__eyebrow">Panel</span>
+      <h1>Smart Home</h1>
+    </div>
+    <div class="conn" id="connIndicator" data-state="unknown">
+      <span class="conn__dot"></span>
+      <span class="conn__label" id="connLabel">Not connected</span>
+    </div>
+  </header>
+
+  <!-- ============ ESP32 CONNECTION ============ -->
+  <section class="panel" id="setupPanel">
+    <div class="panel__head">
+      <h2 class="panel__title">ESP32 Address</h2>
+      <button class="btn-demo" id="demoModeBtn" type="button" title="Test dashboard without physical ESP32">Demo Mode</button>
+    </div>
+    <div class="field-row">
+      <input type="text" id="espIpInput" placeholder="e.g. 192.168.1.50 or https://..." inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <button class="btn btn--secondary" id="connectBtn">Connect</button>
+    </div>
+    <p class="hint" id="setupHint">Enter your ESP32 local IP (e.g. <code>192.168.1.50</code>) for home Wi-Fi, or an HTTPS gateway URL for remote access.</p>
+  </section>
+
+  <!-- ============ ERROR BANNER ============ -->
+  <div class="banner banner--error" id="errorBanner" hidden>
+    <span id="errorText"></span>
+    <button class="banner__dismiss" id="errorDismiss" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <!-- ============ VOICE COMMAND ============ -->
+  <section class="panel">
+    <h2 class="panel__title">Voice Command</h2>
+    <button class="mic-btn" id="micBtn" aria-pressed="false" type="button">
+      <svg class="mic-btn__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M19 11a7 7 0 0 1-14 0M12 18v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span id="micBtnLabel">Speak</span>
+    </button>
+
+    <div class="transcript">
+      <span class="transcript__label">Heard</span>
+      <p class="transcript__text" id="transcriptText">&mdash;</p>
+    </div>
+    <div class="transcript">
+      <span class="transcript__label">Last command</span>
+      <p class="transcript__text" id="lastCommandText">&mdash;</p>
+    </div>
+  </section>
+
+  <!-- ============ DOOR ============ -->
+  <section class="panel device-panel" id="doorPanel" data-active="false">
+    <div class="panel__head">
+      <h2 class="panel__title">
+        <svg class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 21h18M6 21V3h12v18M14 12v.01"/>
+        </svg>
+        Door
+      </h2>
+      <span class="status-pill" id="doorStatusPill">CLOSED</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn--primary" id="doorOpenBtn" type="button">Open</button>
+      <button class="btn btn--outline" id="doorCloseBtn" type="button">Close</button>
+    </div>
+  </section>
+
+  <!-- ============ LIGHT ============ -->
+  <section class="panel device-panel" id="lightPanel" data-active="false">
+    <div class="panel__head">
+      <h2 class="panel__title">
+        <svg class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+        </svg>
+        Light
+      </h2>
+      <span class="status-pill" id="lightStatusPill">OFF</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn--primary" id="lightOnBtn" type="button">On</button>
+      <button class="btn btn--outline" id="lightOffBtn" type="button">Off</button>
+    </div>
+  </section>
+
+  <!-- ============ EMERGENCY STOP ============ -->
+  <button class="btn btn--danger btn--full" id="emergencyStopBtn" type="button">Emergency Stop</button>
+
+  <footer class="app-footer">
+    <span id="pollingIndicator">&nbsp;</span>
+  </footer>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

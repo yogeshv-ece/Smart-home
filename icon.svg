@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a2026"/>
+      <stop offset="100%" stop-color="#12161a"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4fb286"/>
+      <stop offset="100%" stop-color="#3b8c68"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  <rect width="506" height="506" x="3" y="3" rx="110" fill="none" stroke="#2a323a" stroke-width="6"/>
+
+  <!-- Roof & House Outline -->
+  <path d="M140 238 L256 142 L372 238 L372 376 C372 387 363 396 352 396 L160 396 C149 396 140 387 140 376 Z" 
+        fill="none" stroke="#e8edf2" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Glowing Lightbulb / Signal Icon in center -->
+  <circle cx="256" cy="275" r="34" fill="url(#glowGrad)"/>
+  <path d="M238 318 L274 318 M244 330 L268 330" stroke="#4fb286" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Signal / Wi-Fi arcs above roof -->
+  <path d="M208 114 C222 101 238 94 256 94 C274 94 290 101 304 114" 
+        fill="none" stroke="#4fb286" stroke-width="14" stroke-linecap="round"/>
+  <path d="M176 82 C200 60 227 48 256 48 C285 48 312 60 336 82" 
+        fill="none" stroke="#4fb286" stroke-width="14" stroke-linecap="round" opacity="0.6"/>
+</svg>

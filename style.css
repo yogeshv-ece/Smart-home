@@ -1,0 +1,441 @@
+/* =====================================================================
+   Smart Home Control Panel - styles
+   Design intent: a tactile physical control panel, not a generic SaaS
+   dashboard. Flat panels, hairline borders, green/amber status accents,
+   and a monospace typeface reserved for live numeric/status readouts.
+   Optimized for mobile touchscreens (360px - 480px+) and desktop.
+   ===================================================================== */
+
+:root {
+  --bg: #12161a;
+  --panel: #1a2026;
+  --panel-border: #2a323a;
+  --text: #e8edf2;
+  --text-dim: #8b98a5;
+  --accent-on: #4fb286;   /* light on / connected */
+  --accent-warn: #e0a458; /* door open / connecting */
+  --accent-danger: #d64545;
+  --accent-info: #5b8fd6;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+.app {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 4px;
+}
+
+.app-header__eyebrow {
+  display: block;
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.conn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  padding-bottom: 4px;
+}
+
+.conn__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.conn[data-state="connected"] .conn__dot {
+  background: var(--accent-on);
+  box-shadow: 0 0 0 3px rgba(79,178,134,0.18);
+}
+.conn[data-state="connected"] .conn__label {
+  color: var(--accent-on);
+}
+
+.conn[data-state="connecting"] .conn__dot {
+  background: var(--accent-warn);
+  animation: connPulse 1.2s infinite;
+}
+.conn[data-state="connecting"] .conn__label {
+  color: var(--accent-warn);
+}
+
+.conn[data-state="error"] .conn__dot {
+  background: var(--accent-danger);
+}
+.conn[data-state="error"] .conn__label {
+  color: var(--accent-danger);
+}
+
+@keyframes connPulse {
+  0%   { opacity: 1; transform: scale(1); }
+  50%  { opacity: 0.3; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Generic panel ---------- */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.panel__title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel__head .panel__title {
+  margin: 0;
+}
+
+.btn-demo {
+  background: rgba(91, 143, 214, 0.12);
+  border: 1px solid rgba(91, 143, 214, 0.4);
+  color: var(--accent-info);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-demo:hover {
+  background: rgba(91, 143, 214, 0.22);
+}
+.btn-demo[data-active="true"] {
+  background: var(--accent-info);
+  color: #fff;
+  border-color: var(--accent-info);
+}
+
+.hint {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.hint code {
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: 1px solid var(--panel-border);
+}
+
+/* ---------- Setup field row ---------- */
+.field-row {
+  display: flex;
+  gap: 8px;
+}
+
+.field-row input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  min-height: 48px;
+  min-width: 0;
+}
+
+.field-row input:focus,
+button:focus-visible {
+  outline: 2px solid var(--accent-info);
+  outline-offset: 1px;
+}
+
+/* ---------- Error banner ---------- */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.banner--error {
+  background: rgba(214, 69, 69, 0.14);
+  border: 1px solid rgba(214, 69, 69, 0.45);
+  color: #f3b9b9;
+}
+
+.banner__dismiss {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ---------- Mic button ---------- */
+.mic-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  min-height: 54px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+.mic-btn:active {
+  transform: scale(0.98);
+}
+
+.mic-btn__icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-dim);
+}
+
+.mic-btn[aria-pressed="true"] {
+  background: rgba(214, 69, 69, 0.14);
+  border-color: var(--accent-danger);
+  color: #f3b9b9;
+}
+.mic-btn[aria-pressed="true"] .mic-btn__icon {
+  color: var(--accent-danger);
+}
+
+.transcript {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.transcript__label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 3px;
+}
+
+.transcript__text {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  word-break: break-word;
+}
+
+/* ---------- Device Icons ---------- */
+.device-icon {
+  width: 17px;
+  height: 17px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+#doorPanel[data-active="true"] .device-icon { color: var(--accent-warn); }
+#lightPanel[data-active="true"] .device-icon { color: var(--accent-on); }
+
+/* ---------- Device panels (door / light) ---------- */
+.device-panel {
+  border-left: 3px solid var(--panel-border);
+  transition: border-color 0.2s ease;
+}
+
+#doorPanel[data-active="true"] { border-left-color: var(--accent-warn); }
+#lightPanel[data-active="true"] { border-left-color: var(--accent-on); }
+
+.status-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+#doorPanel[data-active="true"] #doorStatusPill {
+  color: var(--accent-warn);
+  border-color: var(--accent-warn);
+}
+#lightPanel[data-active="true"] #lightStatusPill {
+  color: var(--accent-on);
+  border-color: var(--accent-on);
+}
+
+/* Active Button Highlights */
+#doorPanel[data-active="true"] #doorOpenBtn {
+  background: var(--accent-warn);
+  color: #12161a;
+  border-color: var(--accent-warn);
+}
+#doorPanel[data-active="false"] #doorCloseBtn {
+  background: #2a323a;
+  color: var(--text);
+  border-color: #3b4651;
+}
+
+#lightPanel[data-active="true"] #lightOnBtn {
+  background: var(--accent-on);
+  color: #12161a;
+  border-color: var(--accent-on);
+}
+#lightPanel[data-active="false"] #lightOffBtn {
+  background: #2a323a;
+  color: var(--text);
+  border-color: #3b4651;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  min-height: 48px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+  user-select: none;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn--primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn--outline {
+  background: transparent;
+  border-color: var(--panel-border);
+  color: var(--text);
+}
+
+.btn--secondary {
+  background: var(--bg);
+  border-color: var(--panel-border);
+  color: var(--text);
+  padding: 0 18px;
+  min-height: 48px;
+}
+
+.btn--danger {
+  background: var(--accent-danger);
+  color: #fff;
+}
+
+.btn--full {
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+  min-height: 52px;
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--panel-border);
+  min-height: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
